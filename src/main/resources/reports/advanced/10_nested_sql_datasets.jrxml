@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ADVANCED 10: NESTED SQL DATASETS with PARAMETER PASSING between datasets. -->
+<!-- Three <subDataset>s, each with its OWN <queryString>. A parent dataset's field value is passed -->
+<!-- into the child dataset via <datasetParameter>, and the child uses it in its WHERE clause: -->
+<!--   companyDataset      SELECT ... FROM company -->
+<!--     -> departmentDataset  SELECT ... FROM department WHERE company_id = $P{companyId} -->
+<!--          -> employeeDataset  SELECT ... FROM employee  WHERE department_id = $P{departmentId} -->
+<!-- The report is filled with a JDBC Connection; each nested list reuses $P{REPORT_CONNECTION}. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+              name="10_nested_sql_datasets" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              whenNoDataType="AllSectionsNoDetail"
+              uuid="f100000a-0000-4000-8000-000000000001">
+
+	<!-- ===== DATASET 1: companies (no parameter - top of the chain) ===== -->
+	<subDataset name="companyDataset" uuid="f100000a-0000-4000-8000-000000000002">
+		<queryString>
+			<![CDATA[SELECT id AS "id", name AS "name" FROM company ORDER BY name]]>
+		</queryString>
+		<field name="id" class="java.lang.Long"/>
+		<field name="name" class="java.lang.String"/>
+	</subDataset>
+
+	<!-- ===== DATASET 2: departments of ONE company (parameter: companyId) ===== -->
+	<subDataset name="departmentDataset" uuid="f100000a-0000-4000-8000-000000000003">
+		<parameter name="companyId" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[SELECT id AS "id", name AS "name" FROM department
+			         WHERE company_id = $P{companyId} ORDER BY name]]>
+		</queryString>
+		<field name="id" class="java.lang.Long"/>
+		<field name="name" class="java.lang.String"/>
+	</subDataset>
+
+	<!-- ===== DATASET 3: employees of ONE department (parameter: departmentId) ===== -->
+	<subDataset name="employeeDataset" uuid="f100000a-0000-4000-8000-000000000004">
+		<parameter name="departmentId" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[SELECT first_name AS "firstName", last_name AS "lastName", salary AS "salary"
+			         FROM employee WHERE department_id = $P{departmentId} ORDER BY last_name]]>
+		</queryString>
+		<field name="firstName" class="java.lang.String"/>
+		<field name="lastName" class="java.lang.String"/>
+		<field name="salary" class="java.math.BigDecimal"/>
+	</subDataset>
+
+	<title>
+		<band height="60" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="28" uuid="f100000a-0000-4000-8000-000000000005"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Nested SQL Datasets]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="555" height="16" forecolor="#7F8C8D" uuid="f100000a-0000-4000-8000-000000000006"/>
+				<textElement textAlignment="Center"><font size="9" isItalic="true"/></textElement>
+				<text><![CDATA[Each level runs its own SQL, filtered by the parent row's id]]></text>
+			</staticText>
+		</band>
+	</title>
+
+	<summary>
+		<band height="80" splitType="Stretch">
+			<!-- LEVEL 1: iterate companies -->
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="40" uuid="f100000a-0000-4000-8000-000000000007"/>
+				<jr:list printOrder="Vertical">
+					<datasetRun subDataset="companyDataset" uuid="f100000a-0000-4000-8000-000000000008">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="40" width="555">
+						<textField>
+							<reportElement mode="Opaque" x="0" y="2" width="555" height="20" forecolor="#FFFFFF" backcolor="#1A5276" uuid="f100000a-0000-4000-8000-000000000009"/>
+							<box leftPadding="8"/><textElement verticalAlignment="Middle"><font size="12" isBold="true"/></textElement>
+							<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+						</textField>
+						<!-- LEVEL 2: departments WHERE company_id = this company's id -->
+						<componentElement>
+							<reportElement x="12" y="24" width="543" height="14" uuid="f100000a-0000-4000-8000-00000000000a"/>
+							<jr:list printOrder="Vertical">
+								<datasetRun subDataset="departmentDataset" uuid="f100000a-0000-4000-8000-00000000000b">
+									<!-- pass THIS company's id into the department dataset's query -->
+									<datasetParameter name="companyId">
+										<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+									</datasetParameter>
+									<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+								</datasetRun>
+								<jr:listContents height="34" width="543">
+									<textField>
+										<reportElement mode="Opaque" x="0" y="2" width="543" height="16" forecolor="#FFFFFF" backcolor="#2980B9" uuid="f100000a-0000-4000-8000-00000000000c"/>
+										<box leftPadding="6"/><textElement verticalAlignment="Middle"><font size="10" isBold="true"/></textElement>
+										<textFieldExpression><![CDATA["Dept: " + $F{name}]]></textFieldExpression>
+									</textField>
+									<!-- LEVEL 3: employees WHERE department_id = this department's id -->
+									<componentElement>
+										<reportElement x="14" y="18" width="529" height="14" uuid="f100000a-0000-4000-8000-00000000000d"/>
+										<jr:list printOrder="Vertical">
+											<datasetRun subDataset="employeeDataset" uuid="f100000a-0000-4000-8000-00000000000e">
+												<!-- pass THIS department's id into the employee dataset's query -->
+												<datasetParameter name="departmentId">
+													<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+												</datasetParameter>
+												<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+											</datasetRun>
+											<jr:listContents height="14" width="529">
+												<textField>
+													<reportElement x="0" y="0" width="400" height="14" uuid="f100000a-0000-4000-8000-00000000000f"/>
+													<textElement verticalAlignment="Middle"><font size="9"/></textElement>
+													<textFieldExpression><![CDATA[$F{firstName} + " " + $F{lastName}]]></textFieldExpression>
+												</textField>
+												<textField pattern="#,##0.00">
+													<reportElement x="400" y="0" width="129" height="14" uuid="f100000a-0000-4000-8000-000000000010"/>
+													<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+													<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+												</textField>
+											</jr:listContents>
+										</jr:list>
+									</componentElement>
+								</jr:listContents>
+							</jr:list>
+						</componentElement>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</summary>
+</jasperReport>

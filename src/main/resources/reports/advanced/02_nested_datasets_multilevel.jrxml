@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ADVANCED 2: NESTED DATASETS (a dataset inside a dataset), 4 levels deep: -->
+<!-- Company -> Department -> Employee -> Salary History, using nested LIST components. -->
+<!-- Each level is its own <subDataset>; each nested list feeds off the parent row's List field. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+              name="02_nested_datasets_multilevel" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="f1000002-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<!-- LEVEL 2 dataset: departments -->
+	<subDataset name="deptDS" uuid="f1000002-0000-4000-8000-000000000002">
+		<field name="name" class="java.lang.String"/>
+		<field name="employees" class="java.util.List"/>
+		<field name="employeeCount" class="java.lang.Integer"/>
+		<field name="totalSalary" class="java.math.BigDecimal"/>
+	</subDataset>
+	<!-- LEVEL 3 dataset: employees -->
+	<subDataset name="empDS" uuid="f1000002-0000-4000-8000-000000000003">
+		<field name="fullName" class="java.lang.String"/>
+		<field name="hireDate" class="java.time.LocalDate"/>
+		<field name="currentSalary" class="java.math.BigDecimal"/>
+		<field name="salaryHistory" class="java.util.List"/>
+	</subDataset>
+	<!-- LEVEL 4 dataset: salary history -->
+	<subDataset name="salDS" uuid="f1000002-0000-4000-8000-000000000004">
+		<field name="effectiveDate" class="java.time.LocalDate"/>
+		<field name="amount" class="java.math.BigDecimal"/>
+		<field name="reason" class="java.lang.String"/>
+	</subDataset>
+	<!-- LEVEL 1 (main report): companies -->
+	<field name="name" class="java.lang.String"/>
+	<field name="departments" class="java.util.List"/>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="f1000002-0000-4000-8000-000000000005"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Company / Department / Employee / Salary History]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="60">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="22" forecolor="#FFFFFF" backcolor="#1A5276" uuid="f1000002-0000-4000-8000-000000000006"/>
+				<box leftPadding="8"/><textElement verticalAlignment="Middle"><font size="13" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<!-- LEVEL 2 list: departments of this company -->
+			<componentElement>
+				<reportElement x="10" y="24" width="545" height="30" uuid="f1000002-0000-4000-8000-000000000007"/>
+				<jr:list printOrder="Vertical">
+					<datasetRun subDataset="deptDS" uuid="f1000002-0000-4000-8000-000000000008">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{departments})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="30" width="545">
+						<textField>
+							<reportElement mode="Opaque" x="0" y="2" width="545" height="16" forecolor="#FFFFFF" backcolor="#2980B9" uuid="f1000002-0000-4000-8000-000000000009"/>
+							<box leftPadding="6"/><textElement verticalAlignment="Middle"><font size="10" isBold="true"/></textElement>
+							<textFieldExpression><![CDATA["Dept: " + $F{name}]]></textFieldExpression>
+						</textField>
+						<!-- LEVEL 3 list: employees of this department -->
+						<componentElement>
+							<reportElement x="10" y="18" width="535" height="12" uuid="f1000002-0000-4000-8000-00000000000a"/>
+							<jr:list printOrder="Vertical">
+								<datasetRun subDataset="empDS" uuid="f1000002-0000-4000-8000-00000000000b">
+									<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{employees})]]></dataSourceExpression>
+								</datasetRun>
+								<jr:listContents height="28" width="535">
+									<textField>
+										<reportElement x="0" y="1" width="300" height="13" uuid="f1000002-0000-4000-8000-00000000000c"/>
+										<textElement verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+										<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+									</textField>
+									<textField pattern="#,##0.00">
+										<reportElement x="300" y="1" width="235" height="13" uuid="f1000002-0000-4000-8000-00000000000d"/>
+										<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+										<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{currentSalary}]]></textFieldExpression>
+									</textField>
+									<!-- LEVEL 4 list: salary history of this employee -->
+									<componentElement>
+										<reportElement x="20" y="15" width="515" height="12" uuid="f1000002-0000-4000-8000-00000000000e"/>
+										<jr:list printOrder="Vertical">
+											<datasetRun subDataset="salDS" uuid="f1000002-0000-4000-8000-00000000000f">
+												<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{salaryHistory})]]></dataSourceExpression>
+											</datasetRun>
+											<jr:listContents height="12" width="515">
+												<textField pattern="yyyy-MM-dd">
+													<reportElement x="0" y="0" width="90" height="12" forecolor="#7F8C8D" uuid="f1000002-0000-4000-8000-000000000010"/>
+													<textElement><font size="7"/></textElement>
+													<textFieldExpression class="java.time.LocalDate"><![CDATA[$F{effectiveDate}]]></textFieldExpression>
+												</textField>
+												<textField pattern="#,##0.00">
+													<reportElement x="90" y="0" width="90" height="12" forecolor="#7F8C8D" uuid="f1000002-0000-4000-8000-000000000011"/>
+													<textElement textAlignment="Right"><font size="7"/></textElement>
+													<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{amount}]]></textFieldExpression>
+												</textField>
+												<textField>
+													<reportElement x="188" y="0" width="327" height="12" forecolor="#7F8C8D" uuid="f1000002-0000-4000-8000-000000000012"/>
+													<textElement><font size="7" isItalic="true"/></textElement>
+													<textFieldExpression><![CDATA[$F{reason}]]></textFieldExpression>
+												</textField>
+											</jr:listContents>
+										</jr:list>
+									</componentElement>
+								</jr:listContents>
+							</jr:list>
+						</componentElement>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

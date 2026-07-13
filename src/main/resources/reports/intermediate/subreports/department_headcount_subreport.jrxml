@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SUBREPORT: one row per department. Demonstrates a PARAMETER passed down from the master -->
+<!-- ($P{highlightThreshold}) used in a conditional style to flag high-payroll departments. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="department_headcount_subreport" pageWidth="515" pageHeight="842" columnWidth="515"
+              leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0"
+              uuid="e0000002-0000-4000-8000-000000000001">
+	<style name="deptRow" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{totalSalary}.compareTo($P{highlightThreshold}) >= 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FDEDEC" forecolor="#943126"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="highlightThreshold" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[new java.math.BigDecimal("999999999")]]></defaultValueExpression>
+	</parameter>
+	<field name="name" class="java.lang.String"/>
+	<field name="employeeCount" class="java.lang.Integer"/>
+	<field name="totalSalary" class="java.math.BigDecimal"/>
+	<columnHeader>
+		<band height="18">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="315" height="18" backcolor="#EAECEE" uuid="e0000002-0000-4000-8000-000000000002"/>
+				<box leftPadding="4"/><textElement verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="315" y="0" width="80" height="18" backcolor="#EAECEE" uuid="e0000002-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+				<text><![CDATA[Headcount]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="395" y="0" width="120" height="18" backcolor="#EAECEE" uuid="e0000002-0000-4000-8000-000000000004"/>
+				<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+				<text><![CDATA[Total Salary]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16">
+			<textField>
+				<reportElement style="deptRow" x="0" y="0" width="315" height="16" uuid="e0000002-0000-4000-8000-000000000005"/>
+				<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+				<textElement verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="deptRow" x="315" y="0" width="80" height="16" uuid="e0000002-0000-4000-8000-000000000006"/>
+				<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{employeeCount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="deptRow" x="395" y="0" width="120" height="16" uuid="e0000002-0000-4000-8000-000000000007"/>
+				<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{totalSalary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

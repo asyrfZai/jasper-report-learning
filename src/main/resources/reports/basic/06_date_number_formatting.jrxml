@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BASIC 6: DATE and NUMBER formatting via the textField "pattern" attribute (java.text patterns). -->
+<!-- REPORT_LOCALE (set to US in the service) keeps separators/months deterministic. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="06_date_number_formatting" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="c0000006-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="sampleDate" class="java.util.Date">
+		<defaultValueExpression><![CDATA[new java.util.Date()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sampleNumber" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[new java.math.BigDecimal("1234567.891")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sampleRatio" class="java.lang.Double">
+		<defaultValueExpression><![CDATA[Double.valueOf(0.1234)]]></defaultValueExpression>
+	</parameter>
+	<title>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="c0000006-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Date and Number Formatting Reference]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="440" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="6" width="555" height="20" forecolor="#2C3E50" uuid="c0000006-0000-4000-8000-000000000003"/>
+				<textElement><font size="13" isBold="true"/></textElement>
+				<text><![CDATA[Dates]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="30" width="230" height="18" uuid="c0000006-0000-4000-8000-000000000004"/>
+				<text><![CDATA[pattern="yyyy-MM-dd"]]></text>
+			</staticText>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="240" y="30" width="315" height="18" uuid="c0000006-0000-4000-8000-000000000005"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{sampleDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="50" width="230" height="18" uuid="c0000006-0000-4000-8000-000000000006"/>
+				<text><![CDATA[pattern="dd/MM/yyyy"]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="240" y="50" width="315" height="18" uuid="c0000006-0000-4000-8000-000000000007"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{sampleDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="70" width="230" height="18" uuid="c0000006-0000-4000-8000-000000000008"/>
+				<text><![CDATA[pattern="EEEE, MMMM d, yyyy"]]></text>
+			</staticText>
+			<textField pattern="EEEE, MMMM d, yyyy">
+				<reportElement x="240" y="70" width="315" height="18" uuid="c0000006-0000-4000-8000-000000000009"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{sampleDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="90" width="230" height="18" uuid="c0000006-0000-4000-8000-00000000000a"/>
+				<text><![CDATA[pattern="MMM d, yyyy HH:mm"]]></text>
+			</staticText>
+			<textField pattern="MMM d, yyyy HH:mm">
+				<reportElement x="240" y="90" width="315" height="18" uuid="c0000006-0000-4000-8000-00000000000b"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[$P{sampleDate}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="126" width="555" height="20" forecolor="#2C3E50" uuid="c0000006-0000-4000-8000-00000000000c"/>
+				<textElement><font size="13" isBold="true"/></textElement>
+				<text><![CDATA[Numbers (value = 1234567.891)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="150" width="230" height="18" uuid="c0000006-0000-4000-8000-00000000000d"/>
+				<text><![CDATA[pattern="#,##0.00"]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="240" y="150" width="315" height="18" uuid="c0000006-0000-4000-8000-00000000000e"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{sampleNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="170" width="230" height="18" uuid="c0000006-0000-4000-8000-00000000000f"/>
+				<text><![CDATA[pattern="#,##0"]]></text>
+			</staticText>
+			<textField pattern="#,##0">
+				<reportElement x="240" y="170" width="315" height="18" uuid="c0000006-0000-4000-8000-000000000010"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{sampleNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="190" width="230" height="18" uuid="c0000006-0000-4000-8000-000000000011"/>
+				<text><![CDATA[pattern="$ #,##0.00" (currency)]]></text>
+			</staticText>
+			<textField pattern="$ #,##0.00">
+				<reportElement x="240" y="190" width="315" height="18" uuid="c0000006-0000-4000-8000-000000000012"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$P{sampleNumber}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="210" width="230" height="18" uuid="c0000006-0000-4000-8000-000000000013"/>
+				<text><![CDATA[pattern="0.00%" (value = 0.1234)]]></text>
+			</staticText>
+			<textField pattern="0.00%">
+				<reportElement x="240" y="210" width="315" height="18" uuid="c0000006-0000-4000-8000-000000000014"/>
+				<textFieldExpression class="java.lang.Double"><![CDATA[$P{sampleRatio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

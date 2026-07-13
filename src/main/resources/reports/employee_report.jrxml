@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Studio-compatible layout: opens cleanly in Jaspersoft Studio 6.21.x. Data source = JRBeanCollectionDataSource of EmployeeReportDto beans. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="employee_report" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="a1b2c3d4-0001-4a10-9f01-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<!-- Parameter: passed in via the params Map. defaultValueExpression makes it optional. -->
+	<parameter name="REPORT_TITLE" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Employee Directory"]]></defaultValueExpression>
+	</parameter>
+	<!-- No SQL: this report is fed by a JavaBean collection, so queryString stays empty. -->
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<!-- One <field> per getter on EmployeeReportDto. name must match the bean property exactly. -->
+	<field name="fullName" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="hireDate" class="java.time.LocalDate"/>
+	<field name="salary" class="java.math.BigDecimal"/>
+	<!-- Running total of salary across all rows; evaluated once per detail row. -->
+	<variable name="totalSalary" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{salary}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="50" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="30" uuid="a1b2c3d4-0002-4a10-9f01-000000000002"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_TITLE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="32" width="555" height="15" uuid="a1b2c3d4-0003-4a10-9f01-000000000003"/>
+				<textElement textAlignment="Center">
+					<font size="9" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Generated on " + new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement forecolor="#FFFFFF" mode="Opaque" x="0" y="0" width="150" height="22" backcolor="#2C3E50" uuid="a1b2c3d4-0004-4a10-9f01-000000000004"/>
+				<box leftPadding="4"><pen lineColor="#FFFFFF"/></box>
+				<textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement forecolor="#FFFFFF" mode="Opaque" x="150" y="0" width="180" height="22" backcolor="#2C3E50" uuid="a1b2c3d4-0005-4a10-9f01-000000000005"/>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement forecolor="#FFFFFF" mode="Opaque" x="330" y="0" width="130" height="22" backcolor="#2C3E50" uuid="a1b2c3d4-0006-4a10-9f01-000000000006"/>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement forecolor="#FFFFFF" mode="Opaque" x="460" y="0" width="95" height="22" backcolor="#2C3E50" uuid="a1b2c3d4-0007-4a10-9f01-000000000007"/>
+				<box leftPadding="4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Salary]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="150" height="20" uuid="a1b2c3d4-0008-4a10-9f01-000000000008"/>
+				<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="180" height="20" uuid="a1b2c3d4-0009-4a10-9f01-000000000009"/>
+				<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle"><font size="8"/></textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="0" width="130" height="20" uuid="a1b2c3d4-000a-4a10-9f01-00000000000a"/>
+				<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{departmentName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="460" y="0" width="95" height="20" uuid="a1b2c3d4-000b-4a10-9f01-00000000000b"/>
+				<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#CCCCCC"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement x="330" y="2" width="130" height="20" uuid="a1b2c3d4-000c-4a10-9f01-00000000000c"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="460" y="2" width="95" height="20" uuid="a1b2c3d4-000d-4a10-9f01-00000000000d"/>
+				<box rightPadding="4"><topPen lineWidth="1.0"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{totalSalary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="455" height="20" uuid="a1b2c3d4-000e-4a10-9f01-00000000000e"/>
+				<textElement><font size="8"/></textElement>
+				<textFieldExpression><![CDATA["Employee report"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="a1b2c3d4-000f-4a10-9f01-00000000000f"/>
+				<textElement textAlignment="Right"><font size="8"/></textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

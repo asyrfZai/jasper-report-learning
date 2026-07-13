@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BASIC 5: VARIABLES, EXPRESSIONS, CALCULATIONS. -->
+<!-- Built-in $V{REPORT_COUNT} for row numbers; custom Sum/Average variables; an inline arithmetic expression. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="05_variables_expressions" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="c0000005-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="salary" class="java.math.BigDecimal"/>
+	<!-- Sum: adds $F{salary} across all rows. Printed in detail it shows a RUNNING total. -->
+	<variable name="totalSalary" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{salary}]]></variableExpression>
+	</variable>
+	<variable name="avgSalary" class="java.math.BigDecimal" calculation="Average">
+		<variableExpression><![CDATA[$F{salary}]]></variableExpression>
+	</variable>
+	<variable name="maxSalary" class="java.math.BigDecimal" calculation="Highest">
+		<variableExpression><![CDATA[$F{salary}]]></variableExpression>
+	</variable>
+	<title>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="c0000005-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Payroll - Variables and Calculations]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="30" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000005-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[#]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="30" y="0" width="205" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000005-0000-4000-8000-000000000004"/>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="235" y="0" width="120" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000005-0000-4000-8000-000000000005"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Salary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="355" y="0" width="200" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000005-0000-4000-8000-000000000006"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Running total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="30" height="18" uuid="c0000005-0000-4000-8000-000000000007"/>
+				<box><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="0" width="205" height="18" uuid="c0000005-0000-4000-8000-000000000008"/>
+				<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+				<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="235" y="0" width="120" height="18" uuid="c0000005-0000-4000-8000-000000000009"/>
+				<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="355" y="0" width="200" height="18" forecolor="#7F8C8D" uuid="c0000005-0000-4000-8000-00000000000a"/>
+				<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{totalSalary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="90" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="4" width="555" height="1" uuid="c0000005-0000-4000-8000-00000000000b"/>
+				<graphicElement><pen lineWidth="1.0"/></graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="235" y="10" width="120" height="18" uuid="c0000005-0000-4000-8000-00000000000c"/>
+				<textElement textAlignment="Right"><font isBold="true"/></textElement>
+				<text><![CDATA[Headcount:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="360" y="10" width="195" height="18" uuid="c0000005-0000-4000-8000-00000000000d"/>
+				<textElement textAlignment="Right"><font isBold="true"/></textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="235" y="30" width="120" height="18" uuid="c0000005-0000-4000-8000-00000000000e"/>
+				<textElement textAlignment="Right"><font isBold="true"/></textElement>
+				<text><![CDATA[Total salary:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="360" y="30" width="195" height="18" uuid="c0000005-0000-4000-8000-00000000000f"/>
+				<textElement textAlignment="Right"><font isBold="true"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{totalSalary}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="235" y="50" width="120" height="18" uuid="c0000005-0000-4000-8000-000000000010"/>
+				<textElement textAlignment="Right"><font isBold="true"/></textElement>
+				<text><![CDATA[Average:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="360" y="50" width="195" height="18" uuid="c0000005-0000-4000-8000-000000000011"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{avgSalary}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="235" y="70" width="120" height="18" uuid="c0000005-0000-4000-8000-000000000012"/>
+				<textElement textAlignment="Right"><font isBold="true"/></textElement>
+				<text><![CDATA[Highest:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="360" y="70" width="195" height="18" uuid="c0000005-0000-4000-8000-000000000013"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{maxSalary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

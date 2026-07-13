@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ADVANCED 5: CROSSTAB (pivot table). Rows = customer, Columns = product category, -->
+<!-- Measure = SUM(lineTotal). The crosstab has its own subDataset fed from $P{flatItems}. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="05_crosstab" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="f1000005-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="flatDS" uuid="f1000005-0000-4000-8000-000000000002">
+		<field name="customerName" class="java.lang.String"/>
+		<field name="category" class="java.lang.String"/>
+		<field name="lineTotal" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="flatItems" class="java.util.List"/>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="f1000005-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Sales by Customer x Category (crosstab)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="220">
+			<crosstab>
+				<reportElement x="0" y="0" width="555" height="200" uuid="f1000005-0000-4000-8000-000000000004"/>
+				<crosstabDataset>
+					<dataset>
+						<datasetRun subDataset="flatDS" uuid="f1000005-0000-4000-8000-000000000005">
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{flatItems})]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+				</crosstabDataset>
+				<rowGroup name="customerName" width="150" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{customerName}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque" backcolor="#F2F3F4">
+							<box><pen lineWidth="0.5" lineColor="#BDC3C7"/></box>
+							<textField>
+								<reportElement x="0" y="0" width="150" height="20" uuid="f1000005-0000-4000-8000-000000000006"/>
+								<box leftPadding="4"/><textElement verticalAlignment="Middle"><font size="9"/></textElement>
+								<textFieldExpression><![CDATA[$V{customerName}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque" backcolor="#D5DBDB">
+							<box><pen lineWidth="0.5" lineColor="#BDC3C7"/></box>
+							<staticText>
+								<reportElement x="0" y="0" width="150" height="20" uuid="f1000005-0000-4000-8000-000000000007"/>
+								<box leftPadding="4"/><textElement verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+								<text><![CDATA[All customers]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="category" height="20" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{category}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents mode="Opaque" backcolor="#34495E">
+							<box><pen lineWidth="0.5" lineColor="#BDC3C7"/></box>
+							<textField>
+								<reportElement x="0" y="0" width="115" height="20" forecolor="#FFFFFF" uuid="f1000005-0000-4000-8000-000000000008"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+								<textFieldExpression><![CDATA[$V{category}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents mode="Opaque" backcolor="#2C3E50">
+							<box><pen lineWidth="0.5" lineColor="#BDC3C7"/></box>
+							<staticText>
+								<reportElement x="0" y="0" width="115" height="20" forecolor="#FFFFFF" uuid="f1000005-0000-4000-8000-000000000009"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="amountSum" class="java.math.BigDecimal" calculation="Sum">
+					<measureExpression><![CDATA[$F{lineTotal}]]></measureExpression>
+				</measure>
+				<crosstabCell width="115" height="20">
+					<cellContents>
+						<box><pen lineWidth="0.5" lineColor="#D5DBDB"/></box>
+						<textField pattern="#,##0.00">
+							<reportElement x="0" y="0" width="115" height="20" uuid="f1000005-0000-4000-8000-00000000000a"/>
+							<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{amountSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="115" height="20" rowTotalGroup="customerName">
+					<cellContents mode="Opaque" backcolor="#EBEDEF">
+						<box><pen lineWidth="0.5" lineColor="#D5DBDB"/></box>
+						<textField pattern="#,##0.00">
+							<reportElement x="0" y="0" width="115" height="20" uuid="f1000005-0000-4000-8000-00000000000b"/>
+							<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{amountSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="115" height="20" columnTotalGroup="category">
+					<cellContents mode="Opaque" backcolor="#EBEDEF">
+						<box><pen lineWidth="0.5" lineColor="#D5DBDB"/></box>
+						<textField pattern="#,##0.00">
+							<reportElement x="0" y="0" width="115" height="20" uuid="f1000005-0000-4000-8000-00000000000c"/>
+							<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{amountSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="115" height="20" rowTotalGroup="customerName" columnTotalGroup="category">
+					<cellContents mode="Opaque" backcolor="#D5DBDB">
+						<box><pen lineWidth="0.5" lineColor="#BDC3C7"/></box>
+						<textField pattern="#,##0.00">
+							<reportElement x="0" y="0" width="115" height="20" uuid="f1000005-0000-4000-8000-00000000000d"/>
+							<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{amountSum}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

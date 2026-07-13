@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BEGINNER 4: a logo image + a tour of text formatting (font, color, alignment, styled/markup text). -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="04_logo_and_text_formatting" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="b0000004-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<title>
+		<band height="100" splitType="Stretch">
+			<image onErrorType="Icon">
+				<reportElement x="0" y="10" width="120" height="60" uuid="b0000004-0000-4000-8000-000000000002"/>
+				<imageExpression><![CDATA["images/company_logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="140" y="25" width="415" height="35" uuid="b0000004-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="22" isBold="true"/></textElement>
+				<text><![CDATA[Acme Technologies]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="85" width="555" height="1" uuid="b0000004-0000-4000-8000-000000000004"/>
+				<graphicElement><pen lineWidth="1.5" lineColor="#2C3E50"/></graphicElement>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="260" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="555" height="25" forecolor="#2C3E50" uuid="b0000004-0000-4000-8000-000000000005"/>
+				<textElement><font size="16" isBold="true"/></textElement>
+				<text><![CDATA[Text formatting reference]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="45" width="555" height="18" uuid="b0000004-0000-4000-8000-000000000006"/>
+				<textElement><font size="12" isBold="true"/></textElement>
+				<text><![CDATA[Bold text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="65" width="555" height="18" uuid="b0000004-0000-4000-8000-000000000007"/>
+				<textElement><font size="12" isItalic="true"/></textElement>
+				<text><![CDATA[Italic text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="85" width="555" height="18" uuid="b0000004-0000-4000-8000-000000000008"/>
+				<textElement><font size="12" isUnderline="true"/></textElement>
+				<text><![CDATA[Underlined text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="105" width="555" height="18" forecolor="#C0392B" uuid="b0000004-0000-4000-8000-000000000009"/>
+				<textElement><font size="12"/></textElement>
+				<text><![CDATA[Colored text (forecolor on the reportElement)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="125" width="555" height="18" forecolor="#FFFFFF" backcolor="#2980B9" uuid="b0000004-0000-4000-8000-00000000000a"/>
+				<textElement><font size="12"/></textElement>
+				<text><![CDATA[White text on a colored background (mode=Opaque + backcolor)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="150" width="180" height="18" uuid="b0000004-0000-4000-8000-00000000000b"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Left aligned]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="185" y="150" width="185" height="18" uuid="b0000004-0000-4000-8000-00000000000c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Centered]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="150" width="180" height="18" uuid="b0000004-0000-4000-8000-00000000000d"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Right aligned]]></text>
+			</staticText>
+			<!-- isStyledText=true lets you embed HTML-like markup inside a single text element -->
+			<staticText>
+				<reportElement x="0" y="180" width="555" height="40" uuid="b0000004-0000-4000-8000-00000000000e"/>
+				<textElement markup="styled"/>
+				<text><![CDATA[Styled markup in one field: <style isBold="true">bold</style>, <style isItalic="true">italic</style>, <style forecolor="#27AE60">green</style>, and <style size="16">bigger</style>.]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

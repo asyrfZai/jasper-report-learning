@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SUBREPORT (deepest level of the nested-subreports example): one row per employee. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="employee_list_subreport" pageWidth="495" pageHeight="842" columnWidth="495"
+              leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0"
+              uuid="e1000001-0000-4000-8000-000000000001">
+	<field name="fullName" class="java.lang.String"/>
+	<field name="hireDate" class="java.time.LocalDate"/>
+	<field name="currentSalary" class="java.math.BigDecimal"/>
+	<detail>
+		<band height="15">
+			<textField>
+				<reportElement x="10" y="0" width="255" height="15" uuid="e1000001-0000-4000-8000-000000000002"/>
+				<textElement verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression><![CDATA["- " + $F{fullName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="265" y="0" width="110" height="15" uuid="e1000001-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="8"/></textElement>
+				<textFieldExpression class="java.time.LocalDate"><![CDATA[$F{hireDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="375" y="0" width="120" height="15" uuid="e1000001-0000-4000-8000-000000000004"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{currentSalary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

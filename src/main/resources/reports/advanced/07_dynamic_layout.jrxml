@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ADVANCED 7: DYNAMIC / CONDITIONAL LAYOUT. A $P{viewMode} parameter (TABLE | CHART | BOTH) decides -->
+<!-- which sections print, using band-level printWhenExpression. Both sections read the same $P{employees}. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+              name="07_dynamic_layout" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="f1000007-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="empDS" uuid="f1000007-0000-4000-8000-000000000002">
+		<field name="fullName" class="java.lang.String"/>
+		<field name="departmentName" class="java.lang.String"/>
+		<field name="salary" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="viewMode" class="java.lang.String">
+		<defaultValueExpression><![CDATA["BOTH"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="employees" class="java.util.List"/>
+	<title>
+		<band height="44">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="26" uuid="f1000007-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Dynamic Layout]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="28" width="555" height="14" forecolor="#7F8C8D" uuid="f1000007-0000-4000-8000-000000000004"/>
+				<textElement textAlignment="Center"><font size="9" isItalic="true"/></textElement>
+				<textFieldExpression><![CDATA["viewMode = " + $P{viewMode}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<!-- TABLE section: prints only when viewMode is TABLE or BOTH -->
+		<band height="30">
+			<printWhenExpression><![CDATA[$P{viewMode}.equals("TABLE") || $P{viewMode}.equals("BOTH")]]></printWhenExpression>
+			<componentElement>
+				<reportElement x="0" y="2" width="555" height="24" uuid="f1000007-0000-4000-8000-000000000005"/>
+				<jr:list printOrder="Vertical">
+					<datasetRun subDataset="empDS" uuid="f1000007-0000-4000-8000-000000000006">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{employees})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="16" width="555">
+						<textField>
+							<reportElement x="0" y="0" width="400" height="16" uuid="f1000007-0000-4000-8000-000000000007"/>
+							<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+							<textElement verticalAlignment="Middle"><font size="9"/></textElement>
+							<textFieldExpression><![CDATA[$F{fullName} + " - " + $F{departmentName}]]></textFieldExpression>
+						</textField>
+						<textField pattern="#,##0.00">
+							<reportElement x="400" y="0" width="155" height="16" uuid="f1000007-0000-4000-8000-000000000008"/>
+							<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+							<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+		<!-- CHART section: prints only when viewMode is CHART or BOTH -->
+		<band height="280">
+			<printWhenExpression><![CDATA[$P{viewMode}.equals("CHART") || $P{viewMode}.equals("BOTH")]]></printWhenExpression>
+			<barChart>
+				<chart>
+					<reportElement x="0" y="10" width="555" height="260" uuid="f1000007-0000-4000-8000-000000000009"/>
+					<chartTitle><titleExpression><![CDATA["Salary by Employee"]]></titleExpression></chartTitle>
+				</chart>
+				<categoryDataset>
+					<dataset>
+						<datasetRun subDataset="empDS" uuid="f1000007-0000-4000-8000-00000000000a">
+							<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{employees})]]></dataSourceExpression>
+						</datasetRun>
+					</dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Salary"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{fullName}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{salary}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+				</barPlot>
+			</barChart>
+		</band>
+	</detail>
+</jasperReport>

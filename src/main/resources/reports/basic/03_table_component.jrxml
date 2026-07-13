@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BASIC 3: the TABLE component. A table has its OWN subDataset and gets its own data source -->
+<!-- (built from the $P{products} List), independent of the main report's rows. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+              name="03_table_component" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="c0000003-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<!-- subDataset: the table's private field list (fields map to Product getters). Declared before parameters. -->
+	<subDataset name="productDataset" uuid="c0000003-0000-4000-8000-000000000002">
+		<field name="name" class="java.lang.String"/>
+		<field name="category" class="java.lang.String"/>
+		<field name="unitPrice" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="products" class="java.util.List"/>
+	<title>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="c0000003-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Product Catalog (Table component)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="24" uuid="c0000003-0000-4000-8000-000000000004"/>
+				<jr:table>
+					<datasetRun subDataset="productDataset" uuid="c0000003-0000-4000-8000-000000000005">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{products})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="255" uuid="c0000003-0000-4000-8000-000000000006">
+						<jr:columnHeader height="22" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="255" height="22" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000003-0000-4000-8000-000000000007"/>
+								<box leftPadding="4"/>
+								<textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+								<text><![CDATA[Product]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="255" height="20" uuid="c0000003-0000-4000-8000-000000000008"/>
+								<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="180" uuid="c0000003-0000-4000-8000-000000000009">
+						<jr:columnHeader height="22" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="180" height="22" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000003-0000-4000-8000-00000000000a"/>
+								<box leftPadding="4"/>
+								<textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+								<text><![CDATA[Category]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="180" height="20" uuid="c0000003-0000-4000-8000-00000000000b"/>
+								<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{category}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="120" uuid="c0000003-0000-4000-8000-00000000000c">
+						<jr:columnHeader height="22" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="120" height="22" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000003-0000-4000-8000-00000000000d"/>
+								<box rightPadding="4"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement>
+								<text><![CDATA[Unit Price]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField pattern="#,##0.00">
+								<reportElement x="0" y="0" width="120" height="20" uuid="c0000003-0000-4000-8000-00000000000e"/>
+								<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+								<textElement textAlignment="Right" verticalAlignment="Middle"/>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{unitPrice}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

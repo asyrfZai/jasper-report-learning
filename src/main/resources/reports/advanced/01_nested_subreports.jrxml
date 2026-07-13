@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ADVANCED 1: NESTED SUBREPORTS. Three levels: Company (master) -> Department subreport -> Employee subreport. -->
+<!-- The master forwards the employee subreport down to the department subreport via a <subreportParameter>. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="01_nested_subreports" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="f1000001-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="employeeListSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="departmentSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="departments" class="java.util.List"/>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="f1000001-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Org Chart (nested subreports)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="70">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="24" forecolor="#FFFFFF" backcolor="#1A5276" uuid="f1000001-0000-4000-8000-000000000003"/>
+				<box leftPadding="8"/><textElement verticalAlignment="Middle"><font size="13" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="20" y="28" width="515" height="30" uuid="f1000001-0000-4000-8000-000000000004"/>
+				<!-- forward the deepest subreport down one level -->
+				<subreportParameter name="employeeListSubreport">
+					<subreportParameterExpression><![CDATA[$P{employeeListSubreport}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{departments})]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{departmentSubreport}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

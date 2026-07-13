@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ADVANCED 4: a TABLE inside a SUBREPORT. Master = orders; each order embeds the table-subreport, -->
+<!-- handing this order's items down as the $P{itemsForTable} subreport parameter. -->
+<!-- The subreport itself is filled with a single empty row (its content is entirely the table). -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="04_tables_inside_subreports" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="f1000004-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="itemsTableSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="orderId" class="java.lang.Long"/>
+	<field name="customerName" class="java.lang.String"/>
+	<field name="orderDate" class="java.time.LocalDate"/>
+	<field name="items" class="java.util.List"/>
+	<field name="orderTotal" class="java.math.BigDecimal"/>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="f1000004-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Orders (table inside a subreport)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="70">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="415" height="20" forecolor="#FFFFFF" backcolor="#CA6F1E" uuid="f1000004-0000-4000-8000-000000000003"/>
+				<box leftPadding="6"/><textElement verticalAlignment="Middle"><font size="11" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA["Order #" + $F{orderId} + " - " + $F{customerName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="415" y="0" width="140" height="20" forecolor="#FFFFFF" backcolor="#CA6F1E" uuid="f1000004-0000-4000-8000-000000000004"/>
+				<box rightPadding="6"/><textElement textAlignment="Right" verticalAlignment="Middle"><font size="11" isBold="true"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{orderTotal}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="20" y="24" width="515" height="30" uuid="f1000004-0000-4000-8000-000000000005"/>
+				<subreportParameter name="itemsForTable">
+					<subreportParameterExpression><![CDATA[$F{items}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource()]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{itemsTableSubreport}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

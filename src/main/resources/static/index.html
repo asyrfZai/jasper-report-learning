@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JasperReports Learning Project</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #222; }
+  h1 { margin-bottom: 4px; }
+  .subtitle { color: #666; margin-top: 0; }
+  h2 { border-bottom: 2px solid #112D4E; padding-bottom: 4px; margin-top: 40px; color: #112D4E; }
+  .example { margin: 10px 0; padding: 10px 14px; background: #F5F7FA; border-radius: 6px; }
+  .example .name { font-weight: 600; }
+  .example .desc { color: #555; font-size: 0.92em; margin: 4px 0 8px; }
+  .formats a { display: inline-block; margin-right: 8px; padding: 3px 10px; background: #112D4E; color: white; text-decoration: none; border-radius: 4px; font-size: 0.85em; }
+  .formats a:hover { background: #1a4a80; }
+  code { background: #eee; padding: 1px 5px; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<h1>JasperReports Learning Project</h1>
+<p class="subtitle">Beginner &rarr; Advanced JasperReports examples, running live on this Spring Boot app. Click a format button to generate that example on the spot.</p>
+
+<h2>Featured: Employee Report (JavaBean report)</h2>
+<div class="example"><div class="name">Employee Directory</div><div class="desc">The aligned example: List&lt;EmployeeReportDto&gt; &rarr; JRBeanCollectionDataSource &rarr; fill &rarr; export. Optional <code>&amp;title=</code> parameter.</div>
+  <div class="formats" data-base="/api/reports/employees?title=Acme%20Payroll"></div></div>
+
+<h2>1. Beginner</h2>
+<div class="example"><div class="name">Hello World</div><div class="desc">The smallest possible report: static text, no data, no parameters.</div>
+  <div class="formats" data-base="/api/reports/beginner/hello-world"></div></div>
+<div class="example"><div class="name">Static Certificate</div><div class="desc">Fixed text + a seal image, landscape page.</div>
+  <div class="formats" data-base="/api/reports/beginner/certificate"></div></div>
+<div class="example"><div class="name">Parameters &amp; Greeting</div><div class="desc">Report content driven entirely by report parameters.</div>
+  <div class="formats" data-base="/api/reports/beginner/greeting?name=Ada&course=JasperReports&score=95"></div></div>
+<div class="example"><div class="name">Logo &amp; Text Formatting</div><div class="desc">Fonts, styles, alignment, reusable named styles, markup.</div>
+  <div class="formats" data-base="/api/reports/beginner/text-formatting"></div></div>
+
+<h2>2. Basic</h2>
+<div class="example"><div class="name">JavaBean Data Source</div><div class="desc">List&lt;DTO&gt; wrapped in JRBeanCollectionDataSource.</div>
+  <div class="formats" data-base="/api/reports/basic/employees-javabean"></div></div>
+<div class="example"><div class="name">SQL Data Source</div><div class="desc">🗄️ <b>SQL inside the .jrxml</b> &mdash; the <code>&lt;queryString&gt;</code> (a SELECT with a parameter) is run by JasperReports itself against the H2 database.</div>
+  <div class="formats" data-base="/api/reports/basic/products-sql?minUnitPrice=20"></div></div>
+<div class="example"><div class="name">Table Component</div><div class="desc">The dedicated jr:table component.</div>
+  <div class="formats" data-base="/api/reports/basic/products-table"></div></div>
+<div class="example"><div class="name">List Component</div><div class="desc">jr:list rendering a card-style grid.</div>
+  <div class="formats" data-base="/api/reports/basic/products-cards"></div></div>
+<div class="example"><div class="name">Variables &amp; Expressions</div><div class="desc">Sum/Average/Count variables, running totals.</div>
+  <div class="formats" data-base="/api/reports/basic/payroll-variables"></div></div>
+<div class="example"><div class="name">Date &amp; Number Formatting</div><div class="desc">Pattern reference sheet for textField patterns.</div>
+  <div class="formats" data-base="/api/reports/basic/formatting-reference"></div></div>
+<div class="example"><div class="name">Conditional Styles &amp; Printing</div><div class="desc">conditionalStyle + printWhenExpression.</div>
+  <div class="formats" data-base="/api/reports/basic/salary-review?minSalary=6500"></div></div>
+
+<h2>3. Intermediate</h2>
+<div class="example"><div class="name">Grouping &amp; Sorting</div><div class="desc">group/groupExpression + sortField + group-scoped variables.</div>
+  <div class="formats" data-base="/api/reports/intermediate/grouping"></div></div>
+<div class="example"><div class="name">Headers, Footers &amp; Multi-Page</div><div class="desc">pageHeader/pageFooter, "Page X of Y", lastPageFooter.</div>
+  <div class="formats" data-base="/api/reports/intermediate/multipage"></div></div>
+<div class="example"><div class="name">Dynamically Loaded Images</div><div class="desc">Per-row images generated in Java at fill time.</div>
+  <div class="formats" data-base="/api/reports/intermediate/dynamic-images"></div></div>
+<div class="example"><div class="name">Charts</div><div class="desc">Native barChart + pieChart, aggregated by the engine.</div>
+  <div class="formats" data-base="/api/reports/intermediate/charts"></div></div>
+<div class="example"><div class="name">Subreports (Master-Detail)</div><div class="desc">Order (master) embeds an Items subreport (detail).</div>
+  <div class="formats" data-base="/api/reports/intermediate/orders"></div></div>
+<div class="example"><div class="name">Passing Parameters Between Reports</div><div class="desc">Parent-derived + row-derived values forwarded into a subreport.</div>
+  <div class="formats" data-base="/api/reports/intermediate/company-overview?highlightThreshold=15000"></div></div>
+
+<h2>4. Advanced</h2>
+<div class="example"><div class="name">Nested Subreports (3 levels)</div><div class="desc">Company &rarr; Department subreport &rarr; Employee subreport.</div>
+  <div class="formats" data-base="/api/reports/advanced/nested-subreports"></div></div>
+<div class="example"><div class="name">Nested Datasets / Multi-Level Data</div><div class="desc">Company &rarr; Department &rarr; Employee &rarr; Salary History, 4 levels of nested jr:list.</div>
+  <div class="formats" data-base="/api/reports/advanced/nested-datasets"></div></div>
+<div class="example"><div class="name">List Inside a Table</div><div class="desc">A jr:list nested inside a jr:table detail cell.</div>
+  <div class="formats" data-base="/api/reports/advanced/list-in-table"></div></div>
+<div class="example"><div class="name">Table Inside a Subreport</div><div class="desc">A jr:table living entirely inside a subreport child.</div>
+  <div class="formats" data-base="/api/reports/advanced/table-in-subreport"></div></div>
+<div class="example"><div class="name">Crosstab</div><div class="desc">Pivot-style Category x Customer sales grid.</div>
+  <div class="formats" data-base="/api/reports/advanced/crosstab"></div></div>
+<div class="example"><div class="name">Complex Master-Detail Statement</div><div class="desc">Customer &rarr; Order &rarr; Items, with per-customer page breaks.</div>
+  <div class="formats" data-base="/api/reports/advanced/customer-statement"></div></div>
+<div class="example"><div class="name">Dynamic Layout</div><div class="desc">Table/Chart sections toggled by a viewMode parameter.</div>
+  <div class="formats" data-base="/api/reports/advanced/dynamic-layout?viewMode=BOTH"></div></div>
+<div class="example"><div class="name">Multiple Data Sources</div><div class="desc">JavaBeans (main) + 🗄️ <b>SQL inside a subreport's .jrxml</b> (a GROUP BY aggregation run against the H2 connection), combined in one document.</div>
+  <div class="formats" data-base="/api/reports/advanced/multiple-data-sources"></div></div>
+<div class="example"><div class="name">Collections, Maps &amp; Custom Data Adapters</div><div class="desc">JRMapCollectionDataSource + a hand-written JRDataSource.</div>
+  <div class="formats" data-base="/api/reports/advanced/custom-datasource"></div></div>
+<div class="example"><div class="name">Nested SQL Datasets</div><div class="desc">🗄️ <b>SQL inside the .jrxml</b> &mdash; 3 <code>&lt;subDataset&gt;</code>s nested in one file; each child dataset's query is filtered by the parent row's id (company &rarr; department &rarr; employee) via <code>&lt;datasetParameter&gt;</code>.</div>
+  <div class="formats" data-base="/api/reports/advanced/nested-sql-datasets"></div></div>
+<div class="example"><div class="name">Deep Nested SQL Datasets</div><div class="desc">🗄️ <b>SQL inside the .jrxml</b> &mdash; 5 datasets: one aggregate (JOIN + GROUP BY) plus a <b>4-level</b> drill-down (company &rarr; department &rarr; employee &rarr; salary history). A <code>minSalary</code> parameter is threaded down through every level.</div>
+  <div class="formats" data-base="/api/reports/advanced/deep-nested-sql-datasets?minSalary=6000"></div></div>
+
+<script>
+  const formats = ['pdf', 'xlsx', 'docx', 'html', 'csv'];
+  document.querySelectorAll('.formats').forEach(el => {
+    const base = el.getAttribute('data-base');
+    const sep = base.includes('?') ? '&' : '?';
+    formats.forEach(fmt => {
+      const a = document.createElement('a');
+      a.href = base + sep + 'format=' + fmt;
+      a.textContent = fmt.toUpperCase();
+      a.target = '_blank';
+      el.appendChild(a);
+    });
+  });
+</script>
+
+</body>
+</html>

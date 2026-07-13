@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ADVANCED 8: MULTIPLE DATA SOURCES in one document. The MAIN report is fed by a JavaBean data source -->
+<!-- (employees); the embedded subreport is fed by a JDBC CONNECTION ($P{salesConnection}) and runs its -->
+<!-- own SQL. Two completely different data sources, one output. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="08_multiple_data_sources" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="f1000008-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="salesConnection" class="java.sql.Connection"/>
+	<parameter name="salesSummarySubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="salary" class="java.math.BigDecimal"/>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="f1000008-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Multi-Source Report (beans + SQL)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#FFFFFF" backcolor="#117A65" uuid="f1000008-0000-4000-8000-000000000003"/>
+				<box leftPadding="6"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Section 1: Employees (JavaBean data source)]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16">
+			<textField>
+				<reportElement x="0" y="0" width="400" height="16" uuid="f1000008-0000-4000-8000-000000000004"/>
+				<box leftPadding="6"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+				<textElement verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression><![CDATA[$F{fullName} + " - " + $F{departmentName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="400" y="0" width="155" height="16" uuid="f1000008-0000-4000-8000-000000000005"/>
+				<box rightPadding="6"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="120">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="10" width="555" height="20" forecolor="#FFFFFF" backcolor="#B9770E" uuid="f1000008-0000-4000-8000-000000000006"/>
+				<box leftPadding="6"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Section 2: Sales summary (SQL connection data source)]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="20" y="34" width="515" height="30" uuid="f1000008-0000-4000-8000-000000000007"/>
+				<connectionExpression><![CDATA[$P{salesConnection}]]></connectionExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{salesSummarySubreport}]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

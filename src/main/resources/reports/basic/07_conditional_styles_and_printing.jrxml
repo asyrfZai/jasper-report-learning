@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BASIC 7: CONDITIONAL STYLES + CONDITIONAL PRINTING. -->
+<!-- <conditionalStyle> highlights high earners; the detail band's printWhenExpression hides rows below a threshold. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="07_conditional_styles_and_printing" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="c0000007-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<!-- STYLE (declared before parameters/fields). The conditionalStyle applies only when its expression is true. -->
+	<style name="rowStyle" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{salary}.compareTo(new java.math.BigDecimal("9000")) >= 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#FCF3CF" forecolor="#7D6608"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="minSalaryToShow" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[new java.math.BigDecimal("0")]]></defaultValueExpression>
+	</parameter>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="salary" class="java.math.BigDecimal"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="26" uuid="c0000007-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Salary Review]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="30" width="555" height="14" uuid="c0000007-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Center"><font size="9" isItalic="true"/></textElement>
+				<textFieldExpression><![CDATA["Highlighted: salary >= 9,000. Hidden: salary < " + $P{minSalaryToShow}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="255" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000007-0000-4000-8000-000000000004"/>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="255" y="0" width="180" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000007-0000-4000-8000-000000000005"/>
+				<box leftPadding="4"/>
+				<textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="435" y="0" width="120" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="c0000007-0000-4000-8000-000000000006"/>
+				<box rightPadding="4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Salary]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<!-- CONDITIONAL PRINTING: this band is skipped entirely for rows below the threshold. -->
+			<printWhenExpression><![CDATA[$F{salary}.compareTo($P{minSalaryToShow}) >= 0]]></printWhenExpression>
+			<textField>
+				<reportElement style="rowStyle" x="0" y="0" width="255" height="18" uuid="c0000007-0000-4000-8000-000000000007"/>
+				<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+				<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="rowStyle" x="255" y="0" width="180" height="18" uuid="c0000007-0000-4000-8000-000000000008"/>
+				<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+				<textFieldExpression><![CDATA[$F{departmentName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement style="rowStyle" x="435" y="0" width="120" height="18" uuid="c0000007-0000-4000-8000-000000000009"/>
+				<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

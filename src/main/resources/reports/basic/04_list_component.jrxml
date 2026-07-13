@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BASIC 4: the LIST component. Like a mini-report you embed; repeats its listContents for each row -->
+<!-- of its own dataset. Here it renders each product as a "card". -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+              name="04_list_component" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="c0000004-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="productDataset" uuid="c0000004-0000-4000-8000-000000000002">
+		<field name="name" class="java.lang.String"/>
+		<field name="category" class="java.lang.String"/>
+		<field name="unitPrice" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="products" class="java.util.List"/>
+	<title>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="c0000004-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Product Cards (List component)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="60" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="54" uuid="c0000004-0000-4000-8000-000000000004"/>
+				<jr:list printOrder="Vertical">
+					<datasetRun subDataset="productDataset" uuid="c0000004-0000-4000-8000-000000000005">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{products})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="52" width="555">
+						<rectangle radius="6">
+							<reportElement x="0" y="2" width="555" height="46" backcolor="#F4F6F7" mode="Opaque" uuid="c0000004-0000-4000-8000-000000000006"/>
+							<graphicElement><pen lineWidth="0.5" lineColor="#BDC3C7"/></graphicElement>
+						</rectangle>
+						<textField>
+							<reportElement x="12" y="8" width="400" height="20" uuid="c0000004-0000-4000-8000-000000000007"/>
+							<textElement><font size="13" isBold="true"/></textElement>
+							<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+						</textField>
+						<textField>
+							<reportElement x="12" y="28" width="400" height="16" forecolor="#7F8C8D" uuid="c0000004-0000-4000-8000-000000000008"/>
+							<textElement><font size="9"/></textElement>
+							<textFieldExpression><![CDATA["Category: " + $F{category}]]></textFieldExpression>
+						</textField>
+						<textField pattern="#,##0.00">
+							<reportElement x="430" y="14" width="113" height="24" forecolor="#27AE60" uuid="c0000004-0000-4000-8000-000000000009"/>
+							<textElement textAlignment="Right"><font size="15" isBold="true"/></textElement>
+							<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{unitPrice}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

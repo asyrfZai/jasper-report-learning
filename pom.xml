@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.3.2</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.jasperlearning</groupId>
+    <artifactId>jasper-report-learning</artifactId>
+    <version>1.0.0</version>
+    <name>jasper-report-learning</name>
+    <description>
+        A complete, hands-on JasperReports learning project built on Spring Boot.
+        Progresses from a "Hello World" report to advanced multi-level, multi-datasource,
+        crosstab and nested-subreport scenarios. See README.md and docs/ for the guided walkthrough.
+    </description>
+
+    <properties>
+        <java.version>17</java.version>
+        <!-- JasperReports version - keep in sync with jasperreports-fonts below -->
+        <jasperreports.version>6.21.3</jasperreports.version>
+    </properties>
+
+    <dependencies>
+        <!-- Core web stack: exposes each report as a REST endpoint -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- JPA + H2: gives us a real relational data source for SQL-based reports
+             and JavaBean-backed entities for bean-collection reports -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- The JasperReports engine itself: compiles .jrxml -> .jasper and fills reports -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>${jasperreports.version}</version>
+        </dependency>
+        <!-- Bundled DejaVu fonts so PDF export doesn't fall back to missing-font warnings -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>6.21.0</version>
+        </dependency>
+        <!-- Excel (XLSX) and Word (DOCX) export.
+             In JasperReports 6.x the OOXML exporters (JRXlsxExporter / JRDocxExporter)
+             ship INSIDE the core jasperreports jar, but its Apache POI dependency is
+             declared <optional>true</optional>, so Maven does NOT pull it transitively.
+             We must add poi-ooxml ourselves. Version 5.2.2 is exactly what JR 6.21.3
+             was built against. (The separate 'jasperreports-poi' artifact only exists
+             from JasperReports 7.x onward - using it here is a common version mistake.) -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.2</version>
+        </dependency>
+
+        <!-- Boilerplate reduction on entities/DTOs -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>jasper-report-learning</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- INTERMEDIATE 3: DYNAMIC IMAGES. The image path is an EXPRESSION evaluated per row at fill time, -->
+<!-- so different rows can show different images. Here high earners get a "seal", others the logo. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="03_dynamic_images" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="d0000003-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="salary" class="java.math.BigDecimal"/>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="d0000003-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Employees with per-row (dynamic) images]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="52">
+			<image onErrorType="Icon">
+				<reportElement x="0" y="6" width="40" height="40" uuid="d0000003-0000-4000-8000-000000000003"/>
+				<!-- expression decides WHICH image file to load, per employee -->
+				<imageExpression><![CDATA[$F{salary}.compareTo(new java.math.BigDecimal("9000")) >= 0 ? "images/certificate_seal.png" : "images/company_logo.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="52" y="8" width="350" height="20" uuid="d0000003-0000-4000-8000-000000000004"/>
+				<textElement><font size="13" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="28" width="350" height="16" forecolor="#7F8C8D" uuid="d0000003-0000-4000-8000-000000000005"/>
+				<textElement><font size="9"/></textElement>
+				<textFieldExpression><![CDATA[$F{departmentName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="410" y="14" width="145" height="24" uuid="d0000003-0000-4000-8000-000000000006"/>
+				<textElement textAlignment="Right"><font size="14" isBold="true"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="50" width="555" height="1" forecolor="#DDDDDD" uuid="d0000003-0000-4000-8000-000000000007"/>
+			</line>
+		</band>
+	</detail>
+</jasperReport>

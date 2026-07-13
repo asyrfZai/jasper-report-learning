@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BEGINNER 2: a static certificate. Fixed text + a classpath image, no data. -->
+<!-- Image location "images/certificate_seal.png" is resolved off the classpath by Jasper's default loader. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="02_static_certificate" pageWidth="842" pageHeight="595" orientation="Landscape"
+              columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="b0000002-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<title>
+		<band height="480" splitType="Stretch">
+			<!-- Decorative border around the whole certificate -->
+			<rectangle radius="10">
+				<reportElement x="10" y="10" width="782" height="455" uuid="b0000002-0000-4000-8000-000000000002"/>
+				<graphicElement>
+					<pen lineWidth="3.0" lineColor="#2C3E50"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="40" y="60" width="722" height="45" uuid="b0000002-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Center"><font size="34" isBold="true"/></textElement>
+				<text><![CDATA[Certificate of Completion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="140" width="722" height="25" uuid="b0000002-0000-4000-8000-000000000004"/>
+				<textElement textAlignment="Center"><font size="14"/></textElement>
+				<text><![CDATA[This certifies that]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="175" width="722" height="40" uuid="b0000002-0000-4000-8000-000000000005"/>
+				<textElement textAlignment="Center"><font size="26" isBold="true" isItalic="true"/></textElement>
+				<text><![CDATA[Ada Lovelace]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="240" width="562" height="25" uuid="b0000002-0000-4000-8000-000000000006"/>
+				<textElement textAlignment="Center"><font size="14"/></textElement>
+				<text><![CDATA[has successfully completed the JasperReports Fundamentals course.]]></text>
+			</staticText>
+			<image onErrorType="Icon">
+				<reportElement x="371" y="300" width="80" height="80" uuid="b0000002-0000-4000-8000-000000000007"/>
+				<imageExpression><![CDATA["images/certificate_seal.png"]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="130" y="410" width="200" height="1" uuid="b0000002-0000-4000-8000-000000000008"/>
+			</line>
+			<staticText>
+				<reportElement x="130" y="415" width="200" height="20" uuid="b0000002-0000-4000-8000-000000000009"/>
+				<textElement textAlignment="Center"><font size="10"/></textElement>
+				<text><![CDATA[Instructor]]></text>
+			</staticText>
+			<line>
+				<reportElement x="470" y="410" width="200" height="1" uuid="b0000002-0000-4000-8000-00000000000a"/>
+			</line>
+			<staticText>
+				<reportElement x="470" y="415" width="200" height="20" uuid="b0000002-0000-4000-8000-00000000000b"/>
+				<textElement textAlignment="Center"><font size="10"/></textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+		</band>
+	</title>
+</jasperReport>

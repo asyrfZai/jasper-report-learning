@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SUBREPORT: order line items. Filled by the master with new JRBeanCollectionDataSource($F{items}). -->
+<!-- A subreport is just a normal report; margins are 0 so it slots neatly inside the parent's band. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="order_items_subreport" pageWidth="515" pageHeight="842" columnWidth="515"
+              leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0"
+              uuid="e0000001-0000-4000-8000-000000000001">
+	<field name="productName" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="unitPrice" class="java.math.BigDecimal"/>
+	<field name="lineTotal" class="java.math.BigDecimal"/>
+	<variable name="itemsTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{lineTotal}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="18">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="255" height="18" backcolor="#EAECEE" uuid="e0000001-0000-4000-8000-000000000002"/>
+				<box leftPadding="4"/><textElement verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+				<text><![CDATA[Product]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="255" y="0" width="60" height="18" backcolor="#EAECEE" uuid="e0000001-0000-4000-8000-000000000003"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="315" y="0" width="100" height="18" backcolor="#EAECEE" uuid="e0000001-0000-4000-8000-000000000004"/>
+				<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+				<text><![CDATA[Unit Price]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="415" y="0" width="100" height="18" backcolor="#EAECEE" uuid="e0000001-0000-4000-8000-000000000005"/>
+				<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+				<text><![CDATA[Line Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16">
+			<textField>
+				<reportElement x="0" y="0" width="255" height="16" uuid="e0000001-0000-4000-8000-000000000006"/>
+				<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+				<textElement verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="255" y="0" width="60" height="16" uuid="e0000001-0000-4000-8000-000000000007"/>
+				<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{quantity}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="315" y="0" width="100" height="16" uuid="e0000001-0000-4000-8000-000000000008"/>
+				<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{unitPrice}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="415" y="0" width="100" height="16" uuid="e0000001-0000-4000-8000-000000000009"/>
+				<box rightPadding="4"><bottomPen lineWidth="0.5" lineColor="#EEEEEE"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{lineTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="18">
+			<staticText>
+				<reportElement x="255" y="0" width="160" height="18" uuid="e0000001-0000-4000-8000-00000000000a"/>
+				<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+				<text><![CDATA[Order total:]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement x="415" y="0" width="100" height="18" uuid="e0000001-0000-4000-8000-00000000000b"/>
+				<box rightPadding="4"><topPen lineWidth="0.75"/></box>
+				<textElement textAlignment="Right" verticalAlignment="Middle"><font size="9" isBold="true"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{itemsTotal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

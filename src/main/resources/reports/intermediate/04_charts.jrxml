@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- INTERMEDIATE 4: a native CHART (bar chart). The chart's dataset collects one data point per report row -->
+<!-- during the fill iteration, then renders in the summary band. Needs JFreeChart on the classpath. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="04_charts" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="d0000004-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="salary" class="java.math.BigDecimal"/>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="d0000004-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Salary Chart]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="16">
+			<textField>
+				<reportElement x="0" y="0" width="300" height="15" uuid="d0000004-0000-4000-8000-000000000003"/>
+				<textElement><font size="9"/></textElement>
+				<textFieldExpression><![CDATA[$F{fullName} + " (" + $F{departmentName} + ")"]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="300" y="0" width="255" height="15" uuid="d0000004-0000-4000-8000-000000000004"/>
+				<textElement textAlignment="Right"><font size="9"/></textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="320">
+			<barChart>
+				<chart>
+					<reportElement x="0" y="10" width="555" height="300" uuid="d0000004-0000-4000-8000-000000000005"/>
+					<chartTitle>
+						<font size="12" isBold="true"/>
+						<titleExpression><![CDATA["Salary by Employee"]]></titleExpression>
+					</chartTitle>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Salary"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{fullName}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{salary}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot>
+					<plot/>
+					<categoryAxisLabelExpression><![CDATA["Employee"]]></categoryAxisLabelExpression>
+					<valueAxisLabelExpression><![CDATA["Salary"]]></valueAxisLabelExpression>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

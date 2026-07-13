@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- INTERMEDIATE 6: PASSING PARAMETERS to a subreport. Master = companies; each company's departments -->
+<!-- go to the child via a bean data source, AND a <subreportParameter> forwards $P{highlightThreshold}. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="06_subreport_parameter_passing" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="d0000006-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<parameter name="departmentHeadcountSubreport" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="highlightThreshold" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[new java.math.BigDecimal("999999999")]]></defaultValueExpression>
+	</parameter>
+	<field name="name" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="foundedYear" class="java.lang.Integer"/>
+	<field name="departments" class="java.util.List"/>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="d0000006-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Company Overview (subreport + parameter)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="80">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="22" forecolor="#FFFFFF" backcolor="#8E44AD" uuid="d0000006-0000-4000-8000-000000000003"/>
+				<box leftPadding="6"/><textElement verticalAlignment="Middle"><font size="12" isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$F{name} + "   (founded " + $F{foundedYear} + ")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="24" width="555" height="14" forecolor="#7F8C8D" uuid="d0000006-0000-4000-8000-000000000004"/>
+				<textElement><font size="9" isItalic="true"/></textElement>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="20" y="42" width="515" height="30" uuid="d0000006-0000-4000-8000-000000000005"/>
+				<subreportParameter name="highlightThreshold">
+					<subreportParameterExpression><![CDATA[$P{highlightThreshold}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{departments})]]></dataSourceExpression>
+				<subreportExpression class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{departmentHeadcountSubreport}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

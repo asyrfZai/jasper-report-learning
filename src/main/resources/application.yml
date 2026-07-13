@@ -1,0 +1,40 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: jasper-report-learning
+
+  # In-memory H2 database, pre-loaded from sql/schema.sql + sql/data.sql on every boot.
+  # This is what powers all "SQL data source" report examples.
+  datasource:
+    url: jdbc:h2:mem:jasperdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/schema.sql
+      data-locations: classpath:sql/data.sql
+
+  jpa:
+    hibernate:
+      # 'none' because schema.sql already defines the tables - avoids Hibernate
+      # and sql.init racing to create/alter the same tables on startup.
+      ddl-auto: none
+    show-sql: false
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+logging:
+  level:
+    com.jasperlearning: DEBUG

@@ -1,0 +1,63 @@
+# ============================================================================
+# .gitignore for jasper-report-learning
+#
+# NOTE: everything needed to clone + run is intentionally KEPT in git:
+#   pom.xml, mvnw, mvnw.cmd, .mvn/wrapper/maven-wrapper.properties, src/**
+# A fresh clone only needs JDK 17 installed, then:  ./mvnw spring-boot:run
+# ============================================================================
+
+# --- Build output ---
+target/
+build/
+*.class
+*.jar
+*.war
+# ...but DO keep the Maven Wrapper properties (needed to run on clone)
+!.mvn/wrapper/maven-wrapper.properties
+
+# --- Sensitive data / secrets (never commit these) ---
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+id_rsa*
+id_ed25519*
+*credentials*
+*secret*
+secrets*
+# local/secret Spring config overrides (base application.yml stays tracked)
+application-local.*
+application-secret*.*
+application-*-local.*
+
+# --- tooling artifacts ---
+.github/modernize/
+.claude/
+CLAUDE.md
+.cursor/
+.cursorrules
+.aider*
+.continue/
+.codeium/
+.github/copilot-instructions.md
+.windsurfrules
+
+# --- IDE ---
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Logs ---
+*.log

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ADVANCED 3: a LIST inside a TABLE. Outer table = orders; each order row's detail cell holds a -->
+<!-- list of that order's line items (fed from the row's $F{items}). -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd"
+              name="03_list_inside_table" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="f1000003-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="ordersDS" uuid="f1000003-0000-4000-8000-000000000002">
+		<field name="orderId" class="java.lang.Long"/>
+		<field name="customerName" class="java.lang.String"/>
+		<field name="orderDate" class="java.time.LocalDate"/>
+		<field name="items" class="java.util.List"/>
+		<field name="orderTotal" class="java.math.BigDecimal"/>
+	</subDataset>
+	<subDataset name="itemsDS" uuid="f1000003-0000-4000-8000-000000000003">
+		<field name="productName" class="java.lang.String"/>
+		<field name="quantity" class="java.lang.Integer"/>
+		<field name="lineTotal" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="orders" class="java.util.List"/>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="f1000003-0000-4000-8000-000000000004"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Orders (list nested inside a table)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="30">
+			<componentElement>
+				<reportElement x="0" y="0" width="555" height="24" uuid="f1000003-0000-4000-8000-000000000005"/>
+				<jr:table>
+					<datasetRun subDataset="ordersDS" uuid="f1000003-0000-4000-8000-000000000006">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{orders})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="200" uuid="f1000003-0000-4000-8000-000000000007">
+						<jr:columnHeader height="22" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="200" height="22" forecolor="#FFFFFF" backcolor="#34495E" uuid="f1000003-0000-4000-8000-000000000008"/>
+								<box leftPadding="4"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+								<text><![CDATA[Order]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="54" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="2" width="200" height="16" uuid="f1000003-0000-4000-8000-000000000009"/>
+								<box leftPadding="4"/><textElement><font size="10" isBold="true"/></textElement>
+								<textFieldExpression><![CDATA["#" + $F{orderId} + " " + $F{customerName}]]></textFieldExpression>
+							</textField>
+							<textField pattern="yyyy-MM-dd">
+								<reportElement x="0" y="18" width="200" height="14" forecolor="#7F8C8D" uuid="f1000003-0000-4000-8000-00000000000a"/>
+								<box leftPadding="4"/><textElement><font size="8"/></textElement>
+								<textFieldExpression class="java.time.LocalDate"><![CDATA[$F{orderDate}]]></textFieldExpression>
+							</textField>
+							<textField pattern="#,##0.00">
+								<reportElement x="0" y="34" width="200" height="16" forecolor="#27AE60" uuid="f1000003-0000-4000-8000-00000000000b"/>
+								<box leftPadding="4"/><textElement><font size="10" isBold="true"/></textElement>
+								<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{orderTotal}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="355" uuid="f1000003-0000-4000-8000-00000000000c">
+						<jr:columnHeader height="22" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="355" height="22" forecolor="#FFFFFF" backcolor="#34495E" uuid="f1000003-0000-4000-8000-00000000000d"/>
+								<box leftPadding="4"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+								<text><![CDATA[Line Items]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="54" rowSpan="1">
+							<componentElement>
+								<reportElement x="0" y="2" width="355" height="14" uuid="f1000003-0000-4000-8000-00000000000e"/>
+								<jr:list printOrder="Vertical">
+									<datasetRun subDataset="itemsDS" uuid="f1000003-0000-4000-8000-00000000000f">
+										<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{items})]]></dataSourceExpression>
+									</datasetRun>
+									<jr:listContents height="14" width="355">
+										<textField>
+											<reportElement x="4" y="0" width="230" height="14" uuid="f1000003-0000-4000-8000-000000000010"/>
+											<textElement verticalAlignment="Middle"><font size="8"/></textElement>
+											<textFieldExpression><![CDATA[$F{quantity} + " x " + $F{productName}]]></textFieldExpression>
+										</textField>
+										<textField pattern="#,##0.00">
+											<reportElement x="234" y="0" width="117" height="14" uuid="f1000003-0000-4000-8000-000000000011"/>
+											<textElement textAlignment="Right" verticalAlignment="Middle"><font size="8"/></textElement>
+											<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{lineTotal}]]></textFieldExpression>
+										</textField>
+									</jr:listContents>
+								</jr:list>
+							</componentElement>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

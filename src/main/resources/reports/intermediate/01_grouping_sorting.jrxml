@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- INTERMEDIATE 1: GROUPING + SORTING. -->
+<!-- <sortField> orders the incoming rows; <group> breaks them into sections with header/footer + subtotals. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="01_grouping_sorting" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="d0000001-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="salary" class="java.math.BigDecimal"/>
+	<!-- Sort by department, then by salary (highest first) within each department. -->
+	<sortField name="departmentName"/>
+	<sortField name="salary" order="Descending"/>
+	<variable name="deptTotal" class="java.math.BigDecimal" calculation="Sum" resetType="Group" resetGroup="departmentGroup">
+		<variableExpression><![CDATA[$F{salary}]]></variableExpression>
+	</variable>
+	<variable name="deptCount" class="java.lang.Integer" calculation="Count" resetType="Group" resetGroup="departmentGroup">
+		<variableExpression><![CDATA[$F{fullName}]]></variableExpression>
+	</variable>
+	<group name="departmentGroup">
+		<groupExpression><![CDATA[$F{departmentName}]]></groupExpression>
+		<groupHeader>
+			<band height="24">
+				<textField>
+					<reportElement mode="Opaque" x="0" y="2" width="555" height="20" forecolor="#FFFFFF" backcolor="#2980B9" uuid="d0000001-0000-4000-8000-000000000003"/>
+					<box leftPadding="6"/>
+					<textElement verticalAlignment="Middle"><font size="12" isBold="true"/></textElement>
+					<textFieldExpression><![CDATA[$F{departmentName} + "  (" + $F{companyName} + ")"]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22">
+				<staticText>
+					<reportElement x="235" y="0" width="180" height="18" uuid="d0000001-0000-4000-8000-000000000004"/>
+					<box rightPadding="6"/>
+					<textElement textAlignment="Right"><font isBold="true" isItalic="true"/></textElement>
+					<text><![CDATA[Subtotal:]]></text>
+				</staticText>
+				<textField pattern="#,##0.00">
+					<reportElement x="415" y="0" width="140" height="18" uuid="d0000001-0000-4000-8000-000000000005"/>
+					<box rightPadding="6"><topPen lineWidth="0.75"/></box>
+					<textElement textAlignment="Right"><font isBold="true"/></textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{deptTotal}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="34">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="d0000001-0000-4000-8000-000000000006"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Employees by Department]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="18">
+			<textField>
+				<reportElement x="20" y="0" width="235" height="18" uuid="d0000001-0000-4000-8000-000000000007"/>
+				<box leftPadding="4"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+				<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="415" y="0" width="140" height="18" uuid="d0000001-0000-4000-8000-000000000008"/>
+				<box rightPadding="6"><bottomPen lineWidth="0.5" lineColor="#DDDDDD"/></box>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

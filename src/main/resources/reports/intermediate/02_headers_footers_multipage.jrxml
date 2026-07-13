@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- INTERMEDIATE 2: PAGE HEADER / PAGE FOOTER across MULTIPLE PAGES. -->
+<!-- "Page X of Y": X is $V{PAGE_NUMBER} evaluated now; Y is the same variable evaluated at Report time. -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="02_headers_footers_multipage" pageWidth="595" pageHeight="842" columnWidth="555"
+              leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="d0000002-0000-4000-8000-000000000001">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<field name="fullName" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="salary" class="java.math.BigDecimal"/>
+	<title>
+		<band height="40">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="34" uuid="d0000002-0000-4000-8000-000000000002"/>
+				<textElement textAlignment="Center"><font size="18" isBold="true"/></textElement>
+				<text><![CDATA[Company Directory (multi-page)]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="24">
+			<textField>
+				<reportElement x="0" y="4" width="400" height="16" forecolor="#7F8C8D" uuid="d0000002-0000-4000-8000-000000000003"/>
+				<textElement><font size="9"/></textElement>
+				<textFieldExpression><![CDATA["Acme Technologies - Confidential"]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy-MM-dd">
+				<reportElement x="405" y="4" width="150" height="16" forecolor="#7F8C8D" uuid="d0000002-0000-4000-8000-000000000004"/>
+				<textElement textAlignment="Right"><font size="9"/></textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="22" width="555" height="1" uuid="d0000002-0000-4000-8000-000000000005"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="200" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="d0000002-0000-4000-8000-000000000006"/>
+				<box leftPadding="4"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="0" width="235" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="d0000002-0000-4000-8000-000000000007"/>
+				<box leftPadding="4"/><textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="435" y="0" width="120" height="20" forecolor="#FFFFFF" backcolor="#34495E" uuid="d0000002-0000-4000-8000-000000000008"/>
+				<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"><font isBold="true"/></textElement>
+				<text><![CDATA[Salary]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="40">
+			<textField>
+				<reportElement x="0" y="4" width="200" height="18" uuid="d0000002-0000-4000-8000-000000000009"/>
+				<box leftPadding="4"/><textElement><font isBold="true"/></textElement>
+				<textFieldExpression><![CDATA[$F{fullName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="22" width="200" height="14" forecolor="#7F8C8D" uuid="d0000002-0000-4000-8000-00000000000a"/>
+				<box leftPadding="4"/><textElement><font size="8"/></textElement>
+				<textFieldExpression><![CDATA[$F{departmentName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="4" width="235" height="18" uuid="d0000002-0000-4000-8000-00000000000b"/>
+				<box leftPadding="4"/><textElement verticalAlignment="Middle"><font size="9"/></textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="435" y="4" width="120" height="18" uuid="d0000002-0000-4000-8000-00000000000c"/>
+				<box rightPadding="4"/><textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{salary}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="38" width="555" height="1" forecolor="#DDDDDD" uuid="d0000002-0000-4000-8000-00000000000d"/>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="24">
+			<line>
+				<reportElement x="0" y="2" width="555" height="1" uuid="d0000002-0000-4000-8000-00000000000e"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="6" width="277" height="16" forecolor="#7F8C8D" uuid="d0000002-0000-4000-8000-00000000000f"/>
+				<textElement><font size="9"/></textElement>
+				<textFieldExpression><![CDATA["Generated by jasper-report-learning"]]></textFieldExpression>
+			</textField>
+			<!-- "Page X of" - evaluated normally (per page) -->
+			<textField>
+				<reportElement x="277" y="6" width="220" height="16" uuid="d0000002-0000-4000-8000-000000000010"/>
+				<textElement textAlignment="Right"><font size="9"/></textElement>
+				<textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " of "]]></textFieldExpression>
+			</textField>
+			<!-- "Y" - evaluationTime=Report defers until the total page count is known -->
+			<textField evaluationTime="Report">
+				<reportElement x="497" y="6" width="58" height="16" uuid="d0000002-0000-4000-8000-000000000011"/>
+				<textElement textAlignment="Left"><font size="9"/></textElement>
+				<textFieldExpression><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
